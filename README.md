@@ -1,0 +1,1 @@
+# Simple MERN application 🐨 🍃
