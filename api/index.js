@@ -2,6 +2,10 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import authRouter from './routes/auth.js';
+import usersRouter from './routes/users.js';
+import hotelsRouter from './routes/hotels.js';
+import roomsRouter from './routes/rooms.js';
+
 const app = express();
 dotenv.config();
 
@@ -15,7 +19,10 @@ const connect = async () => {
 };
 
 // Middlewares
-app.use('/auth', authRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/hotels', hotelsRouter);
+app.use('/api/rooms', roomsRouter);
 
 const port = process.env.PORT || 5000;
 
