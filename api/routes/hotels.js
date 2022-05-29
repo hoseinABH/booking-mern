@@ -14,8 +14,50 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/', (req, res) => {
-  console.log('hotels');
+// Update
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedHotel = await Hotel.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedHotel);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+// Delete
+router.delete('/:id', async (req, res) => {
+  try {
+    await Hotel.findByIdAndDelete(req.params.id);
+    res.status(200).json('Hotel has been deleted.');
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+// Get By ID
+router.get('/:id', async (req, res) => {
+  try {
+    const hotel = await Hotel.findById(req.params.id);
+    res.status(200).json(hotel);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+// Get All
+router.get('/', async (req, res) => {
+  try {
+    const hotels = await Hotel.find();
+    res.status(200).json(hotels);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 export default router;
