@@ -26,6 +26,16 @@ app.use('/api/users', usersRouter);
 app.use('/api/hotels', hotelsRouter);
 app.use('/api/rooms', roomsRouter);
 
+app.use((error, req, res, next) => {
+  const errorStatus = error.status || 500;
+  const errorMsg = error.message || 'Something went wrong!';
+  return res.status(errorStatus).json({
+    success: false,
+    status: errorStatus,
+    message: errorMsg,
+  });
+});
+
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
