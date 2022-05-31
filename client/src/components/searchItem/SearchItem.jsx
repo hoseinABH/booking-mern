@@ -1,4 +1,5 @@
-import "./searchItem.css";
+// Styles
+import './searchItem.css';
 
 const SearchItem = () => {
   return (

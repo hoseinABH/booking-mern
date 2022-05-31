@@ -1,4 +1,5 @@
-import "./footer.css";
+// Styles
+import './footer.css';
 
 const Footer = () => {
   return (
