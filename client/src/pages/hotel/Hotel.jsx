@@ -7,6 +7,9 @@ import Footer from 'components/footer/Footer';
 // Hooks
 import useFetch from 'hooks/useFetch';
 import { useParams } from 'react-router-dom';
+import { useSearch } from 'context/SearchContext';
+// Utilities
+import { dateDifference } from 'utils';
 // Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -22,7 +25,8 @@ const Hotel = () => {
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const { id } = useParams();
-  const { data, loading, error } = useFetch(`/hotels/find/${id}`);
+  const { data, loading } = useFetch(`/hotels/find/${id}`);
+  const { state, options } = useSearch();
 
   const handleOpen = (i) => {
     setSlideNumber(i);
@@ -40,7 +44,12 @@ const Hotel = () => {
 
     setSlideNumber(newSlideNumber);
   };
-  console.log(data);
+
+  const days = dateDifference(
+    state.dates[0]?.endDate,
+    state.dates[0]?.startDate
+  );
+
   return (
     <div>
       <Navbar />
@@ -107,13 +116,14 @@ const Hotel = () => {
                 <p className="hotelDesc">{data.description}</p>
               </div>
               <div className="hotelDetailsPrice">
-                <h1>Perfect for a 9-night stay!</h1>
+                <h1>Perfect for a {days}-night stay!</h1>
                 <span>
                   Located in the real heart of Krakow, this property has an
                   excellent location score of 9.8!
                 </span>
                 <h2>
-                  <b>$945</b> (9 nights)
+                  <b>${days * data.cheapestPrice * (options?.room ?? 1)}</b> (
+                  {days} nights)
                 </h2>
                 <button>Reserve or Book Now!</button>
               </div>
